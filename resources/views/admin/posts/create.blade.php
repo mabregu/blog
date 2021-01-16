@@ -33,25 +33,40 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="title">{{__("Title post") }}</label>
-                        <input type="title" 
-                            class="form-control" 
-                            name="title" 
-                            id="title" 
+                        <input type="title"
+                            class="form-control @error('title') is-invalid @else '' @enderror"
+                            name="title"
+                            id="title"
+                            value="{{ old('title') }}"
                             placeholder="{{ __("Enter title") }}"
+                            required
                         >
+                        {{-- {!! $errors->first('title', '<span class="help-group">:message</span>') !!} --}}
+                        @error('title')
+                            <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
 
                 <div class="card-body">
                     <div class="form-group">
                         <label for="content">{{__("Content post") }}</label>
-                        <textarea name="content" 
+                        <textarea name="content"
                             name="content"
-                            id="editor" 
-                            class="form-control" 
+                            id="editor"
+                            class="form-control @error('content') is-invalid @else '' @enderror"
                             rows="10"
-                            placeholder="{{ __("Content post") }}">
+                            placeholder="{{ __("Content post") }}"
+                        >
+                            {{ old('content') }}
                         </textarea>
+                        @error('content')
+                            <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -62,11 +77,12 @@
                     <div class="form-group">
                         <label for="published_at">Date</label>
                         <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                            <input type="text" 
-                                name="published_at" 
-                                class="form-control datetimepicker-input" 
-                                data-target="#reservationdate"/
-                            >
+                            <input type="text"
+                                name="published_at"
+                                class="form-control datetimepicker-input"
+                                data-target="#reservationdate"
+                                value="{{ old('published_at') }}"
+                            />
                             <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
@@ -75,38 +91,61 @@
 
                     <div class="form-group">
                         <label for="category">{{__("Category") }}</label>
-                        <select class="form-control" 
-                            name="category" 
+                        <select name="category"
+                            class="form-control @error('category') is-invalid @else '' @enderror"
                             id="category"
                         >
-                            <option>{{ __("Select category") }}</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>                        
+                            <option value="">{{ __("Select category") }}</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ old('category') == $category->id ? 'selected' : '' }}
+                            >
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                        </select>
+                        @error('category')
+                            <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
 
                     <div class="form-group">
                         <label for="tags">{{__("Tags") }}</label>
-                        <select class="form-control select2bs4" 
+                        <select class="form-control select2bs4"
                             multiple="multiple"
-                            name="tags[]" 
-                            id="tag" 
-                            data-placeholder="Select tags" 
+                            name="tags[]"
+                            id="tag"
+                            data-placeholder="Select tags"
                             style="width: 100%;"
                         >
                             <option>{{ __("Select tags") }}</option>
                             @foreach ($tags as $tag)
-                                <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                <option value="{{ $tag->id }}"
+                                    {{ collect(old('tags'))->contains($tag->id) ? 'selected' : '' }}
+                                >
+                                    {{ $tag->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="excerpt">{{__("Excerpt post") }}</label>
-                        <textarea name="excerpt" id="excerpt" class="form-control" rows="5"
-                            placeholder="{{ __("Excerpt post") }}">
-                            </textarea>
+                        <textarea name="excerpt"
+                            id="excerpt"
+                            class="form-control @error('excerpt') is-invalid @else '' @enderror"
+                            rows="5"
+                            placeholder="{{ __("Excerpt post") }}"
+                        >
+                            {{ old('excerpt') }}
+                        </textarea>
+                        @error('excerpt')
+                            <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
 
