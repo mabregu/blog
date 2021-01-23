@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Carbon\Carbon;
 use App\Models\Post;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PostFactory extends Factory
@@ -22,8 +23,11 @@ class PostFactory extends Factory
      */
     public function definition()
     {
+        $title = $this->faker->sentence;
+
         return [
-            'title' => $this->faker->word,
+            'title' => $title,
+            'url' => Str::slug($title),
             'excerpt' => $this->faker->sentence,
             'body' => $this->faker->paragraph,
             'category_id' => rand(1, 5),

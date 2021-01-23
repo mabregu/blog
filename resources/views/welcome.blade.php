@@ -1,10 +1,34 @@
 @extends('layout')
 
 @section('content')
-        
+
     <section class="posts container">
         @foreach ($posts as $post)
-            <article class="post no-image">
+            <article class="post w-gallery">
+                @if ($post->photos->count() === 1)
+                    <figure>
+                        <img src="{{ $post->photos->first()->url }}"
+                            alt="{{ $post->title }}"
+                            class="img-responsive"
+                        >
+                    </figure>
+                @elseif ($post->photos->count() > 1)
+                    <div class="gallery-photos masonry">
+                        @foreach ($post->photos as $photo)
+                            {{-- <figure class="gallery-image">
+                                <img src="{{ url($photo->url) }}" alt="{{ $post->title }}">
+                            </figure> --}}
+                            <figure class="gallery-image">
+                                <img src="img/img-post-gallery-1.png" alt="">
+                            </figure>
+                        @endforeach
+                    </div>
+                @elseif ($post->iframe)
+                    <div class="video">
+                        {!! $post->iframe !!}
+                    </div>
+                @endif
+
                 <div class="content-post">
                     <header class="container-flex space-between">
                         <div class="date">
@@ -19,7 +43,7 @@
                     <p> {{ $post->excerpt }} </p>
                     <footer class="container-flex space-between">
                         <div class="read-more">
-                            <a href="#" class="text-uppercase c-green">read more</a>
+                            <a href="blog/{{ $post->url }}" class="text-uppercase c-green">{{ __('read more') }}</a>
                         </div>
                         <div class="tags container-flex">
 							@foreach ($post->tags as $tag)
@@ -32,6 +56,9 @@
                 </div>
             </article>
         @endforeach
+        <div style="text-align: center;">
+            {{ $posts->links() }}
+        </div>
 		{{-- <article class="post w-image">
 			<figure><img src="img/img-post-1.png" alt="" class="img-responsive"></figure>
 			<div class="content-post">
@@ -233,12 +260,12 @@
 
 	</section><!-- fin del div.posts.container -->
 
-	<div class="pagination">
+	{{-- <div class="pagination">
 		<ul class="list-unstyled container-flex space-center">
 			<li><a href="#" class="pagination-active">1</a></li>
 			<li><a href="#">2</a></li>
 			<li><a href="#">3</a></li>
 		</ul>
-    </div>
-    
+    </div> --}}
+
 @stop

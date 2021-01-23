@@ -1,8 +1,8 @@
 <nav class="mt-2">
-    <ul class="nav nav-pills 
-        nav-sidebar flex-column" 
-        data-widget="treeview" 
-        role="menu" 
+    <ul class="nav nav-pills
+        nav-sidebar flex-column"
+        data-widget="treeview"
+        role="menu"
         data-accordion="false"
     >
         <li class="nav-item">
@@ -15,7 +15,7 @@
         </li>
 
         <li class="nav-item menu-open">
-            <a href="/" 
+            <a href="/"
                 class="nav-link{{ request()->is('admin/posts*') ? ' active' : '' }}"
             >
                 <i class="nav-icon fas fa-th"></i>
@@ -26,7 +26,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                <a href="{{ route('admin.posts.index') }}" 
+                <a href="{{ route('admin.posts.index') }}"
                     class="nav-link{{ request()->is('admin/posts') ? ' active' : '' }}"
                 >
                     <i class="far fa-eye nav-icon"></i>
@@ -34,8 +34,10 @@
                 </a>
                 </li>
                 <li class="nav-item">
-                <a href="{{ route('admin.posts.create') }}" 
-                    class="nav-link{{ request()->is('admin/posts/create') ? ' active' : '' }}"
+                <a href="#"
+                    class="nav-link"
+                    data-toggle="modal"
+                    data-target="#modal-create"
                 >
                     <i class="far fa-edit nav-icon"></i>
                     <p>{{ __('Create post') }}</p>
